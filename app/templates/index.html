@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Detector de Pragas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Detector Inteligente de Pragas Agrícolas</h1>
+  <form action="/detect" method="post" enctype="multipart/form-data">
+    <label>Escolha uma imagem:</label><br>
+    <input type="file" name="image" accept="image/*" required><br>
+    <input type="submit" value="Detectar">
+  </form>
+
+  <div class="resultado" id="resultado"></div>
+
+  <script>
+    const form = document.querySelector('form');
+    const resultado = document.getElementById('resultado');
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const res = await fetch('/detect', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+
+      let html = '<h3>Pragas Detectadas:</h3><ul>';
+      if (data.detecções.length === 0) {
+        html += '<li>Nenhuma praga detectada.</li>';
+      } else {
+        data.detecções.forEach(item => {
+          html += `<li>${item.classe} (Confiança: ${Math.round(item.confiança * 100)}%)</li>`;
+        });
+      }
+      html += '</ul>';
+      resultado.innerHTML = html;
+    };
+  </script>
+</body>
+</html>
