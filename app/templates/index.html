@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Detector de Pragas</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <h1>Detector Inteligente de Pragas Agrícolas</h1>
-  <form action="/detect" method="post" enctype="multipart/form-data">
-    <label>Escolha uma imagem:</label><br>
-    <input type="file" name="image" accept="image/*" required><br>
-    <input type="submit" value="Detectar">
-  </form>
+  <div class="principal">
+    <form action="/detect" method="post" enctype="multipart/form-data">
+      <label>Escolha uma imagem:</label><br>
+      <input type="file" name="image" accept="image/*" required><br>
+      <input type="submit" value="Detectar" id="enviar">
+    </form>
+  </div>
 
   <div class="resultado" id="resultado"></div>
 
